@@ -4,9 +4,9 @@ name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ test-env ]
   pull_request:
-    branches: [ main ]
+    branches: [ test-env ]
 
 jobs:
   test:
