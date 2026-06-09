@@ -1,0 +1,30 @@
+# .github/workflows/test.yml
+
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test SyncFinity Logic
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pywin32 Pillow pystray pytest
+
+      - name: Run tests
+        run: pytest test_syncfinity.py -v
