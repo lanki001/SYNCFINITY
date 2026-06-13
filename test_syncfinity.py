@@ -56,37 +56,38 @@ def test_copied_file_content_matches(folders):
     assert content == "hello from syncfinity", \
         "File content in destination does not match source"
 
-# def test_multiple_files_all_copied(folders):
-#     """All files in source must appear in destination"""
-#     src, dst = folders
 
-#     filenames = ["file1.txt", "file2.txt", "file3.txt"]
-#     for name in filenames:
-#         with open(os.path.join(src, name), "w") as f:
-#             f.write(f"content of {name}")
+def test_multiple_files_all_copied(folders):
+    """All files in source must appear in destination"""
+    src, dst = folders
 
-#     sync_files(src, dst)
+    filenames = ["file1.txt", "file2.txt", "file3.txt"]
+    for name in filenames:
+        with open(os.path.join(src, name), "w") as f:
+            f.write(f"content of {name}")
 
-#     for name in filenames:
-#         assert os.path.exists(os.path.join(dst, name)), \
-#             f"{name} was not copied to destination"
+    sync_files(src, dst)
 
-
-# def test_empty_source_folder_does_not_crash(folders):
-#     """Syncing an empty folder should complete without errors"""
-#     src, dst = folders
-#     sync_files(src, dst)  # should not raise any exception
+    for name in filenames:
+        assert os.path.exists(os.path.join(dst, name)), \
+            f"{name} was not copied to destination"
 
 
-# def test_original_file_still_exists_after_copy(folders):
-#     """Source file must still exist after sync — it's a copy, not a move"""
-#     src, dst = folders
+def test_empty_source_folder_does_not_crash(folders):
+    """Syncing an empty folder should complete without errors"""
+    src, dst = folders
+    sync_files(src, dst)  # should not raise any exception
 
-#     test_file = os.path.join(src, "original.txt")
-#     with open(test_file, "w") as f:
-#         f.write("do not delete me")
 
-#     sync_files(src, dst)
+def test_original_file_still_exists_after_copy(folders):
+    """Source file must still exist after sync — it's a copy, not a move"""
+    src, dst = folders
 
-#     assert os.path.exists(test_file), \
-#         "Source file was deleted after sync — it should still be there"
+    test_file = os.path.join(src, "original.txt")
+    with open(test_file, "w") as f:
+        f.write("do not delete me")
+
+    sync_files(src, dst)
+
+    assert os.path.exists(test_file), \
+        "Source file was deleted after sync — it should still be there"
