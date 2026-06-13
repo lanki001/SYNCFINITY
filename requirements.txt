@@ -1,3 +1,2 @@
 Pillow
 pystray
-pywin32
