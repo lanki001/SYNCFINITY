@@ -50,4 +50,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/syncfinity:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/syncfinity:latest
