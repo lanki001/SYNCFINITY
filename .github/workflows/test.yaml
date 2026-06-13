@@ -1,4 +1,4 @@
-name: Run Tests
+name: Test, Build and Push Docker Image
 
 on:
   push:
@@ -7,6 +7,8 @@ on:
     branches: [ test-env ]
 
 jobs:
+
+  # ─── JOB 1: RUN TESTS FIRST ───────────────────────────────────────────────
   test:
     name: Test SyncFinity File Copy
     runs-on: windows-latest
@@ -25,3 +27,26 @@ jobs:
 
       - name: Run tests
         run: pytest test_syncfinity.py -v
+
+  # ─── JOB 2: BUILD AND PUSH DOCKER IMAGE ───────────────────────────────────
+  docker:
+    name: Build and Push to Docker Hub
+    runs-on: ubuntu-latest
+    needs: test              
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/syncfinity:latest
